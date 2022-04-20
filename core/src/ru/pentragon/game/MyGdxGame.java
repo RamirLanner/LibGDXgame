@@ -4,38 +4,36 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-public class MyGdxGame extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
-	int posX=0;
-	int posY=0;
-	
-	@Override
-	public void create () {
-		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
-	}
+import java.util.Arrays;
 
-	@Override
-	public void render () {
-		//test test
-			ScreenUtils.clear(1, 0, 0, 1);
-			batch.begin();
-			if(Gdx.input.isButtonPressed(Input.Buttons.LEFT))
-			{
-				posX = Gdx.input.getX()-img.getWidth()/2;
-				posY = (Gdx.graphics.getHeight()-Gdx.input.getY()) - img.getHeight()/2;
-			}
-			batch.draw(img, posX, posY);
-			batch.end();
-	}
-	
-	@Override
-	public void dispose () {
-		batch.dispose();
-		img.dispose();
-	}
+public class MyGdxGame extends ApplicationAdapter {
+    SpriteBatch batch;
+    MyAnimation shuttle;
+
+    @Override
+    public void create() {
+        batch = new SpriteBatch();
+        shuttle = new MyAnimation("shuttle_sprite.png", 6,6,10, Animation.PlayMode.NORMAL);
+
+    }
+
+    @Override
+    public void render() {
+        ScreenUtils.clear(1, 0, 0, 1);
+        batch.begin();
+        shuttle.setTime(Gdx.graphics.getDeltaTime());
+        batch.draw(shuttle.getRegion(), Gdx.graphics.getWidth() / 2, (int)Gdx.graphics.getHeight() / 2);
+        batch.end();
+    }
+
+    @Override
+    public void dispose() {
+        batch.dispose();
+        shuttle.dispose();
+    }
 }
